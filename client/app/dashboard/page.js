@@ -10,6 +10,9 @@ function DashboardContent() {
   const { user, token, logout } = useAuth();
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [newProject, setNewProject] = useState({ name: "", description: "" });
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     if (!token) return;
@@ -17,6 +20,23 @@ function DashboardContent() {
       .then(setProjects)
       .catch((e) => setError(e.message));
   }, [token]);
+
+  async function createProject(e) {
+  e.preventDefault();
+  setCreating(true);
+  setError("");
+  try {
+    await apiFetch("/projects", { method: "POST", token, body: newProject });
+    setNewProject({ name: "", description: "" });
+    setShowForm(false);
+    const fresh = await apiFetch("/projects", { token });
+    setProjects(fresh);
+  } catch (e) {
+    setError(e.message);
+  } finally {
+    setCreating(false);
+  }
+}
 
   return (
     <main className="max-w-4xl mx-auto p-8">
@@ -29,6 +49,47 @@ function DashboardContent() {
           Log out
         </button>
       </div>
+
+      {(user?.role === "ADMIN" || user?.role === "PROJECT_MANAGER") && (
+  <section className="mb-8 p-4 bg-white rounded-lg shadow-sm border">
+    {!showForm ? (
+      <button onClick={() => setShowForm(true)} className="text-sm underline">
+        + New Project
+      </button>
+    ) : (
+      <form onSubmit={createProject} className="space-y-3">
+        <input
+          placeholder="Project name"
+          required
+          value={newProject.name}
+          onChange={(e) => setNewProject((p) => ({ ...p, name: e.target.value }))}
+          className="w-full border rounded-md px-3 py-2"
+        />
+        <textarea
+          placeholder="Description (optional)"
+          value={newProject.description}
+          onChange={(e) => setNewProject((p) => ({ ...p, description: e.target.value }))}
+          className="w-full border rounded-md px-3 py-2"
+        />
+        <div className="flex gap-2">
+          <button
+            disabled={creating}
+            className="bg-black text-white rounded-md px-4 py-2 text-sm disabled:opacity-50"
+          >
+            {creating ? "Creating..." : "Create"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowForm(false)}
+            className="text-sm px-4 py-2"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    )}
+  </section>
+)}
 
       <section>
         <h2 className="font-medium mb-3">
