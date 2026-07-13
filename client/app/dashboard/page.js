@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { apiFetch } from "../../lib/api";
 import ProtectedRoute from "../../components/ProtectedRoute";
+import Link from "next/link";
 
 function DashboardContent() {
   const { user, token, logout } = useAuth();
@@ -36,13 +37,13 @@ function DashboardContent() {
         {error && <p className="text-red-600 text-sm">{error}</p>}
         <div className="grid gap-3">
           {projects.map((p) => (
-            <div key={p.id} className="p-4 bg-white rounded-lg shadow-sm border">
+            <Link key={p.id} href={`/projects/${p.id}`} className="p-4 bg-white rounded-lg shadow-sm border block hover:shadow-md transition">
               <p className="font-medium">{p.name}</p>
               <p className="text-sm text-gray-500">{p.description}</p>
               <p className="text-xs text-gray-400 mt-1">
                 {p._count?.tasks ?? 0} tasks &middot; {p.members?.length ?? 0} members
               </p>
-            </div>
+            </Link>
           ))}
           {projects.length === 0 && !error && (
             <p className="text-sm text-gray-500">No projects yet.</p>
