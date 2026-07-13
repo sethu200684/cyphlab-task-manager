@@ -1,3 +1,5 @@
+//// Deployment trigger
+require("dotenv").config();
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -14,4 +16,8 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`API server running on port ${PORT}`));
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`API server running on port ${PORT}`));
+}
+
+module.exports = app;
