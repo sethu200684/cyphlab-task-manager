@@ -50,6 +50,12 @@ function DashboardContent() {
         </button>
       </div>
 
+      {user?.role === "ADMIN" && (
+            <Link href="/admin/users" className="text-sm underline block mb-6">
+            Manage Users →
+            </Link>
+        )}
+
       {(user?.role === "ADMIN" || user?.role === "PROJECT_MANAGER") && (
   <section className="mb-8 p-4 bg-white rounded-lg shadow-sm border">
     {!showForm ? (
