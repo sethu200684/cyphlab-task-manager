@@ -25,8 +25,8 @@ function ProjectDetailContent() {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (token) loadProject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, id]);
 
   async function updateStatus(taskId, status) {

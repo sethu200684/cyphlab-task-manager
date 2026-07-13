@@ -19,8 +19,8 @@ function AdminUsersContent() {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (token) loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   async function changeRole(userId, role) {
