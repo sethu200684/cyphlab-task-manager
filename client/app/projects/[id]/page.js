@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -7,6 +7,17 @@ import { apiFetch } from "../../../lib/api";
 import ProtectedRoute from "../../../components/ProtectedRoute";
 
 const STATUS_OPTIONS = ["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"];
+
+function statusColor(status) {
+  return (
+    {
+      TODO: "bg-gray-100 text-gray-700",
+      IN_PROGRESS: "bg-blue-100 text-blue-700",
+      IN_REVIEW: "bg-amber-100 text-amber-700",
+      DONE: "bg-green-100 text-green-700",
+    }[status] || "bg-gray-100 text-gray-700"
+  );
+}
 
 function ProjectDetailContent() {
   const { id } = useParams();
@@ -109,7 +120,7 @@ function ProjectDetailContent() {
             </select>
             <button
               disabled={creating}
-              className="bg-black text-white rounded-md px-4 py-2 disabled:opacity-50"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-md px-4 py-2 disabled:opacity-50 transition"
             >
               {creating ? "Adding..." : "Add Task"}
             </button>
@@ -123,7 +134,10 @@ function ProjectDetailContent() {
           {project.tasks.map((task) => {
             const canUpdateStatus = canManage || task.assignee?.id === user?.id;
             return (
-              <div key={task.id} className="p-4 bg-white border rounded-lg flex justify-between items-center">
+              <div
+                key={task.id}
+                className="p-4 bg-white border rounded-lg flex justify-between items-center"
+              >
                 <div>
                   <p className="font-medium">{task.title}</p>
                   <p className="text-xs text-gray-400">
@@ -134,14 +148,24 @@ function ProjectDetailContent() {
                   <select
                     value={task.status}
                     onChange={(e) => updateStatus(task.id, e.target.value)}
-                    className="border rounded-md px-2 py-1 text-sm"
+                    className={`border-0 rounded-full px-3 py-1 text-xs font-medium ${statusColor(
+                      task.status
+                    )}`}
                   >
                     {STATUS_OPTIONS.map((s) => (
-                      <option key={s} value={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {s.replace("_", " ")}
+                      </option>
                     ))}
                   </select>
                 ) : (
-                  <span className="text-sm text-gray-500">{task.status}</span>
+                  <span
+                    className={`text-xs font-medium px-3 py-1 rounded-full ${statusColor(
+                      task.status
+                    )}`}
+                  >
+                    {task.status.replace("_", " ")}
+                  </span>
                 )}
               </div>
             );

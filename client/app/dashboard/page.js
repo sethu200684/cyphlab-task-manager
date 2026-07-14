@@ -122,7 +122,7 @@ function DashboardContent() {
               <div className="flex gap-2">
                 <button
                   disabled={creating}
-                  className="bg-black text-white rounded-md px-4 py-2 text-sm disabled:opacity-50"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-md py-2 disabled:opacity-50 transition"
                 >
                   {creating ? "Creating..." : "Create"}
                 </button>
