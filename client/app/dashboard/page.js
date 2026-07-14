@@ -73,22 +73,22 @@ function DashboardContent() {
 
       {taskStats && (
         <div className="grid grid-cols-4 gap-3 mb-6">
-          <div className="p-3 bg-white border rounded-lg text-center">
-            <p className="text-2xl font-semibold">{taskStats.TODO}</p>
-            <p className="text-xs text-gray-500">To Do</p>
-          </div>
-          <div className="p-3 bg-white border rounded-lg text-center">
-            <p className="text-2xl font-semibold">{taskStats.IN_PROGRESS}</p>
-            <p className="text-xs text-gray-500">In Progress</p>
-          </div>
-          <div className="p-3 bg-white border rounded-lg text-center">
-            <p className="text-2xl font-semibold">{taskStats.IN_REVIEW}</p>
-            <p className="text-xs text-gray-500">In Review</p>
-          </div>
-          <div className="p-3 bg-white border rounded-lg text-center">
-            <p className="text-2xl font-semibold">{taskStats.DONE}</p>
-            <p className="text-xs text-gray-500">Done</p>
-          </div>
+           <div className="p-3 bg-white border-l-4 border-gray-400 rounded-lg text-center shadow-sm">
+               <p className="text-2xl font-semibold text-gray-700">{taskStats.TODO}</p>
+               <p className="text-xs text-gray-500">To Do</p>
+           </div>
+           <div className="p-3 bg-white border-l-4 border-blue-500 rounded-lg text-center shadow-sm">
+               <p className="text-2xl font-semibold text-blue-700">{taskStats.IN_PROGRESS}</p>
+               <p className="text-xs text-gray-500">In Progress</p>
+           </div>
+           <div className="p-3 bg-white border-l-4 border-amber-500 rounded-lg text-center shadow-sm">
+               <p className="text-2xl font-semibold text-amber-700">{taskStats.IN_REVIEW}</p>
+               <p className="text-xs text-gray-500">In Review</p>
+           </div>
+           <div className="p-3 bg-white border-l-4 border-green-500 rounded-lg text-center shadow-sm">
+               <p className="text-2xl font-semibold text-green-700">{taskStats.DONE}</p>
+               <p className="text-xs text-gray-500">Done</p>
+           </div>
         </div>
       )}
 
