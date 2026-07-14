@@ -13,13 +13,27 @@ function DashboardContent() {
   const [showForm, setShowForm] = useState(false);
   const [newProject, setNewProject] = useState({ name: "", description: "" });
   const [creating, setCreating] = useState(false);
+  const [taskStats, setTaskStats] = useState(null);
 
   useEffect(() => {
     if (!token) return;
     apiFetch("/projects", { token })
       .then(setProjects)
       .catch((e) => setError(e.message));
+      loadStats();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
+
+  async function loadStats() {
+  try {
+    const mine = await apiFetch("/tasks/mine", { token });
+    const counts = { TODO: 0, IN_PROGRESS: 0, IN_REVIEW: 0, DONE: 0 };
+    mine.forEach((t) => { counts[t.status] = (counts[t.status] || 0) + 1; });
+    setTaskStats(counts);
+  } catch (e) {
+    // silently ignore, stats are non-critical
+  }
+}
 
   async function createProject(e) {
   e.preventDefault();
@@ -49,6 +63,27 @@ function DashboardContent() {
           Log out
         </button>
       </div>
+
+      {taskStats && (
+  <div className="grid grid-cols-4 gap-3 mb-6">
+    <div className="p-3 bg-white border rounded-lg text-center">
+      <p className="text-2xl font-semibold">{taskStats.TODO}</p>
+      <p className="text-xs text-gray-500">To Do</p>
+    </div>
+    <div className="p-3 bg-white border rounded-lg text-center">
+      <p className="text-2xl font-semibold">{taskStats.IN_PROGRESS}</p>
+      <p className="text-xs text-gray-500">In Progress</p>
+    </div>
+    <div className="p-3 bg-white border rounded-lg text-center">
+      <p className="text-2xl font-semibold">{taskStats.IN_REVIEW}</p>
+      <p className="text-xs text-gray-500">In Review</p>
+    </div>
+    <div className="p-3 bg-white border rounded-lg text-center">
+      <p className="text-2xl font-semibold">{taskStats.DONE}</p>
+      <p className="text-xs text-gray-500">Done</p>
+    </div>
+  </div>
+)}
 
       {user?.role === "ADMIN" && (
             <Link href="/admin/users" className="text-sm underline block mb-6">
