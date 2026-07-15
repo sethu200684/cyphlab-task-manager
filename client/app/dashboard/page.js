@@ -34,6 +34,7 @@ function DashboardContent() {
     apiFetch("/projects", { token })
       .then(setProjects)
       .catch((e) => setError(e.message));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
     loadStats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
