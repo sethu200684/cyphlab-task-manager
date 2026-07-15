@@ -61,6 +61,12 @@ npm run dev                # runs on http://localhost:3000
 2. To test Admin/PM flows, promote a user's role via Prisma Studio (`npx prisma studio` inside `server`) or through the in-app Admin panel once one user has been manually promoted.
 3. Log in and explore — dashboard content and permissions change based on role.
 
+### Testing Admin/Project Manager features
+For security, all self-registered accounts default to Team Member — this is intentional, so no one can grant themselves elevated access. To test Admin or Project Manager functionality:
+
+1. Register a new account through the app (or use the live demo)
+2. Promote it to Admin/Project Manager using Prisma Studio (`npx prisma studio` inside `server`, after setting up your own local database), or ask for temporary reviewer credentials if evaluating the live deployment
+
 ## API Overview
 Full request/response details are in the Postman collection: [`docs/postman_collection.json`](./docs/postman_collection.json)
 
