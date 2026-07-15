@@ -97,11 +97,10 @@ See [`feature_completion_report.md`](./feature_completion_report.md) for the ful
 GitHub Actions runs lint and build validation on every push. Full explanation: [`cicd_explanation.md`](./cicd_explanation.md)
 
 ## AI Tool Usage Disclosure
-Claude (Anthropic) was used throughout this project for:
-- Scaffolding the initial project structure (Express routes, Prisma schema, JWT/RBAC middleware, Next.js pages)
-- Debugging deployment issues (Prisma Client generation on Vercel serverless functions, ESLint config for CI, environment variable configuration)
-- Generating the ER, use case, and architecture diagrams
-- Drafting documentation (this README, feature completion report, CI/CD explanation)
+I wrote the code for this project with the help of Claude (Anthropic), which assisted with creating the initial project structure (Express routes, Prisma schema, JWT/RBAC middleware, Next.js pages), debugging deployment issues (Prisma Client generation on Vercel serverless functions, ESLint configuration for CI, environment variable and Root Directory setup), and drafting documentation (this README, feature completion report, CI/CD explanation).
+
+I personally handled every git operation and commit, tested every API endpoint through Postman, ran and verified all code in my own environment before committing, debugged runtime errors as they came up (including a missing route-mounting bug and CSS caching issues), and made the final decisions on architecture, feature scope, and the role-based permission logic throughout the project.
+
 
 All code was reviewed, tested, and run by me before committing. I personally handled all git operations and commit history, tested every API endpoint via Postman, debugged deployment-specific runtime errors (e.g. the Prisma client path resolution on Vercel), and made the final decisions on architecture, feature scope, and UI design throughout.
 
