@@ -101,9 +101,6 @@ I wrote the code for this project with the help of Claude (Anthropic), which ass
 
 I personally handled every git operation and commit, tested every API endpoint through Postman, ran and verified all code in my own environment before committing, debugged runtime errors as they came up (including a missing route-mounting bug and CSS caching issues), and made the final decisions on architecture, feature scope, and the role-based permission logic throughout the project.
 
-
-All code was reviewed, tested, and run by me before committing. I personally handled all git operations and commit history, tested every API endpoint via Postman, debugged deployment-specific runtime errors (e.g. the Prisma client path resolution on Vercel), and made the final decisions on architecture, feature scope, and UI design throughout.
-
 ## Known Limitations
 - Free-tier hosting may have a brief cold-start delay on the first request after a period of inactivity.
 - No email verification on registration (out of scope for this assignment's timeline).
