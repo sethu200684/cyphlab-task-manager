@@ -4,7 +4,7 @@ A role-based project and task management app built for the CyphLab Full Stack
 Developer internship practical assignment.
 
 ## Live Demo
-- **Frontend:** https://cyphlab-task-manager-fi83-delta.vercel.app
+- **Frontend:** https://cyphlab-task-manager-fi83-delta.vercel.app/
 - **Backend API:** https://cyphlab-task-manager-seven.vercel.app/api
 
 ## Tech Stack

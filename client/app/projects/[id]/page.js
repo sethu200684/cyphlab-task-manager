@@ -26,6 +26,9 @@ function ProjectDetailContent() {
   const [error, setError] = useState("");
   const [newTask, setNewTask] = useState({ title: "", assigneeId: "" });
   const [creating, setCreating] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [addingMember, setAddingMember] = useState(false);
 
   const canManage = user?.role === "ADMIN" || user?.role === "PROJECT_MANAGER";
 
@@ -36,7 +39,12 @@ function ProjectDetailContent() {
   }
 
   useEffect(() => {
-    if (token) loadProject();
+    if (token) {
+      loadProject();
+      apiFetch("/users", { token })
+        .then(setAllUsers)
+        .catch(() => {});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, id]);
 
@@ -76,6 +84,26 @@ function ProjectDetailContent() {
     }
   }
 
+  async function addMember(e) {
+    e.preventDefault();
+    if (!selectedUserId) return;
+    setAddingMember(true);
+    setError("");
+    try {
+      await apiFetch(`/projects/${id}/members`, {
+        method: "POST",
+        token,
+        body: { userId: selectedUserId },
+      });
+      setSelectedUserId("");
+      loadProject();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setAddingMember(false);
+    }
+  }
+
   if (error) return <p className="p-8 text-red-600">{error}</p>;
   if (!project) return <p className="p-8">Loading...</p>;
 
@@ -94,6 +122,34 @@ function ProjectDetailContent() {
           ))}
         </div>
       </section>
+
+      {canManage && (
+        <section className="mb-8 p-4 bg-white border rounded-lg">
+          <h2 className="font-medium mb-3">Add a member</h2>
+          <form onSubmit={addMember} className="flex gap-2">
+            <select
+              value={selectedUserId}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              className="border rounded-md px-3 py-2 flex-1"
+            >
+              <option value="">Select a user...</option>
+              {allUsers
+                .filter((u) => !project.members.some((m) => m.userId === u.id))
+                .map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.name} ({u.role})
+                  </option>
+                ))}
+            </select>
+            <button
+              disabled={addingMember || !selectedUserId}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-md px-4 py-2 disabled:opacity-50 transition"
+            >
+              {addingMember ? "Adding..." : "Add"}
+            </button>
+          </form>
+        </section>
+      )}
 
       {canManage && (
         <section className="mb-8 p-4 bg-white border rounded-lg">

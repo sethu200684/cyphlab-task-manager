@@ -7,7 +7,7 @@ const { requireRole } = require("../middleware/roles");
 const router = express.Router();
 
 // List all users — Admin only
-router.get("/", requireAuth, requireRole(["ADMIN"]), async (req, res) => {
+router.get("/", requireAuth, requireRole(["ADMIN", "PROJECT_MANAGER"]), async (req, res) => {
   const users = await prisma.user.findMany({
     select: { id: true, name: true, email: true, role: true, createdAt: true },
     orderBy: { createdAt: "desc" },
